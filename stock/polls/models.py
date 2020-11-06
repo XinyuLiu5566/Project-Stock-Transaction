@@ -125,6 +125,9 @@ class StockInfo(models.Model):
     enname = models.CharField(max_length=255)
     list_date = models.DateField()
 
+    def __str__(self):
+        return self.ts_code + '-' + str(self.symbol) + '-' + self.enname
+
     class Meta:
         managed = False
         db_table = 'stock_info'
