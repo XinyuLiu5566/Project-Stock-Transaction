@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+<<<<<<< HEAD
 from .forms import *
 from .models import *
 
@@ -34,3 +35,13 @@ def insert_elem(request):
     }
     return render(request, 'polls/insert.html', context)
 # Create your views here.
+=======
+
+from .models import StockInfo
+# Create your views here.
+
+
+def showone(request, symbol_num):
+    stock = StockInfo.objects.get(symbol=symbol_num)
+    return HttpResponse(stock)
+>>>>>>> 182700ae4671e15ad3698b161efea5257de400ce

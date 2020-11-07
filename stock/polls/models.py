@@ -1,3 +1,11 @@
+# Create your models here.
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
@@ -67,6 +75,7 @@ class AuthUserUserPermissions(models.Model):
         unique_together = (('user', 'permission'),)
 
 
+<<<<<<< HEAD
 class DailyInfo(models.Model):
     ts_code = models.CharField(primary_key=True, max_length=20)
     trade_date = models.CharField(max_length=20)
@@ -86,6 +95,8 @@ class DailyInfo(models.Model):
         unique_together = (('ts_code', 'trade_date'),)
 
 
+=======
+>>>>>>> 182700ae4671e15ad3698b161efea5257de400ce
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -134,6 +145,7 @@ class StockInfo(models.Model):
     ts_code = models.CharField(primary_key=True, max_length=20)
     symbol = models.IntegerField(blank=True, null=True)
     enname = models.CharField(max_length=255)
+<<<<<<< HEAD
     list_date = models.CharField(max_length=255)
 
     # list_date = models.DateField()
@@ -141,3 +153,13 @@ class StockInfo(models.Model):
     class Meta:
         managed = False
         db_table = 'stock_info'
+=======
+    list_date = models.DateField()
+
+    def __str__(self):
+        return self.ts_code + '-' + str(self.symbol) + '-' + self.enname
+
+    class Meta:
+        managed = False
+        db_table = 'stock_info'
+>>>>>>> 182700ae4671e15ad3698b161efea5257de400ce
