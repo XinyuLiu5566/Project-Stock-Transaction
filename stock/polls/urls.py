@@ -7,5 +7,5 @@ urlpatterns = [
     path('insert/', views.insert_elem, name="app-insert"),
     path('update/<str:pk>/', views.update_elem, name="app-update"),
     path('delete/<str:pk>/', views.delete, name="app-delete"),
-
+    path('search/', views.search, name="app-search"),
 ]

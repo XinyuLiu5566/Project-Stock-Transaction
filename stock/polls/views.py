@@ -56,4 +56,15 @@ def delete(request, pk):
         "item" : stock,
     }
     return render(request, 'polls/delete.html', context)
+
+def search(request):
+    code = request.POST['search']
+    title = "search result"
+    queryset = StockInfo.objects.get(ts_code = code)
+    # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
+    context = {
+        "title" : title,
+        "queryset" : queryset,
+    }
+    return render(request, 'polls/search.html', context)
 # Create your views here.

@@ -47,9 +47,7 @@
                 <a class="nav-link" href="/polls/all_stock">All Stock <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-md-0" method = 'POST', action = "/polls/search/">{% csrf_token %}
-                <input class="form-control" name = "search" type="text" placeholder="Search">
-            </form>
+    
 
             <!-- <form method='POST' action=''>{% csrf_token %}
                 {{form}}
@@ -75,67 +73,21 @@
 					<th>Delete</th>
 				</tr>
 
-				{% for order in queryset %}
 					<tr>
-						<td>{{order.ts_code}}</td>
-						<td>{{order.symbol}}</td>
-                        <td>{{order.enname}}</td>
-                        <td>{{order.list_date}}</td>
+						<td>{{queryset.ts_code}}</td>
+						<td>{{queryset.symbol}}</td>
+                        <td>{{queryset.enname}}</td>
+                        <td>{{queryset.list_date}}</td>
 						<td><a class="btn btn-sm btn-info" href="/polls/update/{{order.ts_code}}"> Update</a></td>
 
 						<td><a class="btn btn-sm btn-danger" href="/polls/delete/{{order.ts_code}}">Delete</a></td>
 
 					</tr>
-				{% endfor %}
 
 		
 			</table>
 		</div>
 	</div>  
-        
-    
-    
-	 <!-- <div class="limiter">
-		<div class="container-table100">
-			<div class="wrap-table100">
-				<div class="table100 ver1 m-b-110">
-					<div class="table100-head">
-						<table>
-							<thead>
-								<tr class="row100 head">
-									<th class="cell100 column1">TS_code</th>
-									<th class="cell100 column2">Symbol</th>
-									<th class="cell100 column3">Enname</th>
-                                    <th class="cell100 column4">List Date</th>
-                                    <th class="cell100 column5">Update</th>
-                                    <th class="cell100 column6">Remove</th>
-                                    
-								</tr>
-							</thead>
-						</table>
-                    </div> 
-
-					<div class="table100-body js-pscroll">
-						<table>
-							<tbody>
-                         
-                                {%for each in queryset%}
-								<tr class="row100 body">
-									<td class="cell100 column1">{{each.ts_code}}</td>
-									<td class="cell100 column2">{{each.symbol}}</td>
-									<td class="cell100 column3">{{each.enname}}</td>
-                                    <td class="cell100 column4">{{each.list_date}}</td>
-                                    <td><a class = "btn btn-sm btn-info" href="#">Delete</a></td>
-                                    <td><a class = "btn btn-sm btn-danger" href="#">Remove</a></td>
-                                </tr>
-                                {% endfor %}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-    </div> -->
 </div>
 </div>
 
