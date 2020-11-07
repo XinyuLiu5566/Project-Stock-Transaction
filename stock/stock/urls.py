@@ -14,11 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-<<<<<<< HEAD
 from django.urls import path, include
-=======
-from django.urls import include, path
->>>>>>> 182700ae4671e15ad3698b161efea5257de400ce
 
 urlpatterns = [
     path('polls/', include('polls.urls')),

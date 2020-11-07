@@ -1,6 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-<<<<<<< HEAD
 from .forms import *
 from .models import *
 
@@ -16,6 +15,7 @@ def home(request):
 def all_stock(request):
     title = "all stock info"
     queryset = StockInfo.objects.all()
+    # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
     context = {
         "title" : title,
         "queryset" : queryset,
@@ -34,14 +34,26 @@ def insert_elem(request):
         "title": title,
     }
     return render(request, 'polls/insert.html', context)
+
+
+def update_elem(request, pk):
+    stock = StockInfo.objects.get(ts_code = pk)
+    # stock = StockInfo.objects.raw('''SELECT * FROM stock_info WHERE ts_code = %s''', pk)
+    form = StockCreateForm(request.POST or None, instance = stock) 
+    if form.is_valid():
+        form.save()
+    context = {
+        "form" : form,
+    }
+    return render(request, 'polls/insert.html', context)
+
+def delete(request, pk):
+    stock = StockInfo.objects.get(ts_code = pk)
+    if request.method == "POST":
+        stock.delete()
+        return redirect('../../../polls/all_stock')
+    context = {
+        "item" : stock,
+    }
+    return render(request, 'polls/delete.html', context)
 # Create your views here.
-=======
-
-from .models import StockInfo
-# Create your views here.
-
-
-def showone(request, symbol_num):
-    stock = StockInfo.objects.get(symbol=symbol_num)
-    return HttpResponse(stock)
->>>>>>> 182700ae4671e15ad3698b161efea5257de400ce

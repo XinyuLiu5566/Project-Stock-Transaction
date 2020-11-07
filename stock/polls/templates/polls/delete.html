@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+</head>
+<body>
+
+    <P>Are you sure you want to delete it?</P>
+	<form method='POST'> {% csrf_token %}
+        <a style = "text-decoration: none" href = "/polls/all_stock">Cancel</a>
+        <input type="submit" value='Confirm'>
+    </form>
+
+</body>
+</html>
