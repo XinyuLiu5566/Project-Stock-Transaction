@@ -1,0 +1,162 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+	<title>{{title}}</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+<!--===============================================================================================-->	
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+    
+    <link rel="stylesheet" href="{% static 'css/util.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/home.css' %}"> -->
+<!--===============================================================================================-->
+</head>
+<body>
+    <div>
+    <div>
+        <nav class="navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Stocks</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarsExample02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                <a class="nav-link" href="/polls">Home</a>
+                </li>
+                <li class="nav-item active">
+                <a class="nav-link" href="/polls/all_stock">All Stock <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search">
+            </form>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- <button type="button" class="btn btn-primary" style = "position:absolute; top:94vh; right:45vw">Insert new stock</button> -->
+    <!-- <a class="btn btn-primary" href="/polls/insert" style = "position:absolute; top:94vh; right:45vw" role="button">Insert New Stock</a> -->
+    
+    <div class="col-md-12">
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="/polls/insert">Create Order</a>
+			<table class="table table-sm">
+				<tr>
+					<th>Product</th>
+                    <th>Date Orderd</th>
+                    <th>abcd</th>
+					<th>Status</th>
+					<th>Update</th>
+					<th>Remove</th>
+				</tr>
+
+				{% for order in queryset %}
+					<tr>
+						<td>{{order.ts_code}}</td>
+						<td>{{order.symbol}}</td>
+                        <td>{{order.enname}}</td>
+                        <td>{{order.list_date}}</td>
+						<td><a class="btn btn-sm btn-info" href="#">Update</a></td>
+
+						<td><a class="btn btn-sm btn-danger" href="#">Delete</a></td>
+
+					</tr>
+				{% endfor %}
+
+		
+			</table>
+		</div>
+	</div>  
+        
+    
+    
+	 <!-- <div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100 ver1 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">TS_code</th>
+									<th class="cell100 column2">Symbol</th>
+									<th class="cell100 column3">Enname</th>
+                                    <th class="cell100 column4">List Date</th>
+                                    <th class="cell100 column5">Update</th>
+                                    <th class="cell100 column6">Remove</th>
+                                    
+								</tr>
+							</thead>
+						</table>
+                    </div> 
+
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+                         
+                                {%for each in queryset%}
+								<tr class="row100 body">
+									<td class="cell100 column1">{{each.ts_code}}</td>
+									<td class="cell100 column2">{{each.symbol}}</td>
+									<td class="cell100 column3">{{each.enname}}</td>
+                                    <td class="cell100 column4">{{each.list_date}}</td>
+                                    <td><a class = "btn btn-sm btn-info" href="#">Delete</a></td>
+                                    <td><a class = "btn btn-sm btn-danger" href="#">Remove</a></td>
+                                </tr>
+                                {% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div> -->
+</div>
+</div>
+
+
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			var ps = new PerfectScrollbar(this);
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+			
+		
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+</html>
