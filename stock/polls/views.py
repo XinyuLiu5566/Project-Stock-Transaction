@@ -2,6 +2,61 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import *
 from .models import *
+from django.contrib.auth.forms import UserCreationForm
+
+
+from django.http import HttpResponse
+from django.forms import inlineformset_factory
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+def register(request):
+    title = "register"
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user)
+
+            return redirect('../../polls/login')
+    context = {
+        "title" : title,
+        "form" : form
+    }
+    return render(request, 'polls/register.html', context)
+
+
+def loginPage(request):
+    title = "login"
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password =request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('../after_login')
+        else:
+            messages.info(request, 'Username OR password is incorrect')
+
+    context = {}
+    return render(request, 'polls/login.html', context)
+
+def home_afterlogin(request):
+    title = "Stock mainpage"
+    context = {
+        "title" : title
+    }
+    return render(request, 'polls/home_after_login.html', context)
+
+
+def logoutPage(request):
+	logout(request)
+	return redirect('login')
+
 
 def home(request):
     title = "Stock mainpage"
