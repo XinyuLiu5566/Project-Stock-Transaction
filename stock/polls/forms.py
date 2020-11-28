@@ -11,7 +11,6 @@ class StockCreateForm(forms.ModelForm):
 
 
 
-
 class CreateUserForm(UserCreationForm):
 	class Meta:
 		model = User

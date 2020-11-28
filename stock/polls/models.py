@@ -12,16 +12,14 @@ from neomodel import (config, StructuredNode, StringProperty, IntegerProperty,
 
 config.DATABASE_URL = 'bolt://neo4j:password@localhost:7687'
 
-class Country(StructuredNode):
-    code = StringProperty(unique_index=True, required=True)
+class Transaction(StructuredNode):
+    ts_code = StringProperty(unique_index=True)
 
-class Person(StructuredNode):
-    uid = UniqueIdProperty()
+class User(StructuredNode):
     name = StringProperty(unique_index=True)
-    age = IntegerProperty(index=True, default=0)
 
     # traverse outgoing IS_FROM relations, inflate to Country objects
-    country = RelationshipTo(Country, 'IS_FROM')
+    stock = RelationshipTo(Transaction, 'own')
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)

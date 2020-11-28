@@ -20,7 +20,7 @@ def register(request):
             form.save()
             user = form.cleaned_data.get('username')
             messages.success(request, 'Account was created for ' + user)
-
+            
             return redirect('../../polls/login')
     context = {
         "title" : title,
@@ -33,7 +33,7 @@ def loginPage(request):
     title = "login"
     if request.method == 'POST':
         username = request.POST.get('username')
-        password =request.POST.get('password')
+        password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
@@ -89,6 +89,8 @@ def insert_elem(request):
         "title": title,
     }
     return render(request, 'polls/insert.html', context)
+
+
 
 
 def update_elem(request, pk):
