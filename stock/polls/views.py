@@ -38,7 +38,7 @@ def loginPage(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('../after_login')
+            return redirect('../polls/after_login')
         else:
             messages.info(request, 'Username OR password is incorrect')
 

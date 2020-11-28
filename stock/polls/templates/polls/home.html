@@ -26,19 +26,81 @@
             <div class="collapse navbar-collapse" id="navbarsExample02">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="/polls">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="/polls/home_after_login.html">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/polls/all_stock">All Stock</a>
                 </li>
               </ul>
 
-              <a href="../polls/login" class="btn btn-secondary btn-sm" role="button" aria-pressed="true">Login</a>
+              <span>Hello, {{request.user}} </span>
+              <a href="../login" class="btn btn-secondary btn-sm" role="button" aria-pressed="true">Logout</a>
             </div>
           </nav>
     </div>
+    
+    
+    <div class="col-md-6">
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="/polls/insertneo">Insert new stock</a>
+			<table class="table table-sm">
+				<tr>
+					<th>TS_code</th>
+                    <th>Symbol</th>
+                    <th>Enname</th>
+					<th>List Date</th>
+					<th>Update</th>
+					<th>Delete</th>
+				</tr>
 
-    <h1>helo</h1>
+				<!-- {% for order in queryset %}
+					<tr>
+						<td>{{order.ts_code}}</td>
+						<td>{{order.symbol}}</td>
+                        <td>{{order.enname}}</td>
+                        <td>{{order.list_date}}</td>
+						<td><a class="btn btn-sm btn-info" href="/polls/update/{{order.ts_code}}"> Update</a></td>
+
+						<td><a class="btn btn-sm btn-danger" href="/polls/delete/{{order.ts_code}}">Delete</a></td>
+
+					</tr>
+				{% endfor %} -->
+
+		
+			</table>
+		</div>
+	</div>  
+        
+
+</div>
+</div>
+
+
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			var ps = new PerfectScrollbar(this);
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+			
+		
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+</html>
 
 
 
