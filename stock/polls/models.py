@@ -15,7 +15,7 @@ config.DATABASE_URL = 'bolt://neo4j:password@localhost:7687'
 class Transaction(StructuredNode):
     ts_code = StringProperty(unique_index=True)
 
-class User(StructuredNode):
+class Person(StructuredNode):
     name = StringProperty(unique_index=True)
 
     # traverse outgoing IS_FROM relations, inflate to Country objects
