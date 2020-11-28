@@ -3,13 +3,15 @@ from django.http import HttpResponse
 from .forms import *
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
-
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import os
+from neomodel import config
 
 def register(request):
     title = "register"
@@ -19,6 +21,9 @@ def register(request):
         if form.is_valid():
             form.save()
             user = form.cleaned_data.get('username')
+            usernode = Person(name = user)
+            config.DATABASE_URL = os.environ["NEO4J_BOLT_URL"]
+            usernode.save()
             messages.success(request, 'Account was created for ' + user)
 
             return redirect('../../polls/login')
@@ -33,7 +38,7 @@ def loginPage(request):
     title = "login"
     if request.method == 'POST':
         username = request.POST.get('username')
-        password =request.POST.get('password')
+        password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
@@ -46,11 +51,21 @@ def loginPage(request):
     return render(request, 'polls/login.html', context)
 
 def home_afterlogin(request):
-    title = "Stock mainpage"
-    context = {
+    if request.user.username == 'admin':
+        title = "all stock info"
+        queryset = StockInfo.objects.all()
+        # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
+        context = {
+            "title" : title,
+            "queryset" : queryset,
+        }
+        return render(request, 'polls/all_stock.html', context)
+    else:
+        title = "Stock mainpage"
+        context = {
         "title" : title
-    }
-    return render(request, 'polls/home_after_login.html', context)
+        }
+        return render(request, 'polls/home_after_login.html', context)
 
 
 def logoutPage(request):
@@ -89,6 +104,33 @@ def insert_elem(request):
         "title": title,
     }
     return render(request, 'polls/insert.html', context)
+
+def insert_neo(request):
+    config.DATABASE_URL = os.environ["NEO4J_BOLT_URL"]
+    title = "insert"
+    form = StockForm(request.POST or None)
+    flag = 1
+    if form.is_valid():
+        code = form.data['input_code']
+        print(type(code))
+        try:
+            user = StockInfo.objects.get(ts_code = code)
+        except ObjectDoesNotExist:
+            flag = 0
+        if flag == 1:
+            ts = Transaction.nodes.get_or_none(ts_code = code)
+            if ts is None:
+                ts = Transaction(ts_code = code).save()
+            
+            # usernode = Person.nodes.get(name=request.user.username)
+            # usernode.stock.connect(ts)
+            # return redirect('polls/all_stock.html')
+    context = {
+        "form" : form,
+        "title": title,
+    }
+    return render(request, 'polls/insertneo.html', context)
+
 
 
 def update_elem(request, pk):

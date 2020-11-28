@@ -7,7 +7,19 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from neomodel import (config, StructuredNode, StringProperty, IntegerProperty,
+    UniqueIdProperty, RelationshipTo)
 
+config.DATABASE_URL = 'bolt://neo4j:password@localhost:7687'
+
+class Transaction(StructuredNode):
+    ts_code = StringProperty(unique_index=True)
+
+class Person(StructuredNode):
+    name = StringProperty(unique_index=True)
+
+    # traverse outgoing IS_FROM relations, inflate to Country objects
+    stock = RelationshipTo(Transaction, 'own')
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
