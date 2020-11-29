@@ -5,6 +5,11 @@
 <html lang="en"></html>
 <head>
 	<title>{{title}}</title>
+	<style>
+		body {
+			background-image: url( "{% static 'img/bg.jpg' %}");
+		}
+	</style>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -56,16 +61,38 @@
             </div>
         </nav>
     </div>
-    
-    
-    <div class="col-md-12">
+	
+
+    <!-- <form class="md-form active-pink active-pink-2 mb-3 mt-0" method = 'POST', action = "/polls/search/">{% csrf_token %}
+		<input class="form-control" name = "search_ts" type="text" placeholder="Search TS_code">
+	</form> -->
+	<div style="position: absolute; top: 80px; display:flex; flex: 1;" >
+		<div>
+		<form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/search/">{% csrf_token %}
+			<input class="form-control mr-sm-2" name = "search_ts" type="text" placeholder="Search TS_code" aria-label="Search">
+			<!-- <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Search</button> -->
+		</form>
+		</div>
+		<div style="position: relative; left: 10vw;">
+		<form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/search/">{% csrf_token %}
+			<input class="form-control mr-sm-2" name = "search_date" type="text" placeholder="Search date" aria-label="Search">
+			<button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Search</button>
+		</form>
+		</div>
+	</div>
+
+	<!-- <form class="form-inline my-2 my-md-0" method = 'POST', action = "/polls/search/">{% csrf_token %}
+		<input class="form-control" name = "search_date" type="text" placeholder="Search date">
+	</form> -->
+    <div style="position: absolute; top: 200px;" class="col-md-12">
 		<div class="card card-body">
 			<a class="btn btn-primary  btn-sm btn-block" href="/polls/insert">Insert new stock</a>
 			<table class="table table-sm">
 				<tr>
 					<th>TS_code</th>
-                    <th>Company</th>
-                    <th>date</th>
+                    <th>company</th>
+					<th>date</th>
+					<th>open price</th>
                     <th>high</th>
                     <th>low</th>
                     <th>close</th>
@@ -77,14 +104,15 @@
 
 				{% for order in queryset %}
 					<tr>
-						<td>{{order.ts_code}}</td>
-						<td>{{order.company}}</td>
-                        <td>{{order.date}}</td>
-                        <td>{{order.high}}</td>
-                        <td>{{order.low}}</td>
-						<td>{{order.close}}</td>
-                        <td>{{order.percent_change}}</td>
-                        <td>{{order.volume}}</td>
+						<td>{{order.0}}</td>
+						<td>{{order.1}}</td>
+						<td>{{order.2}}</td>
+						<td>{{order.3}}</td>
+                        <td>{{order.4}}</td>
+                        <td>{{order.5}}</td>
+						<td>{{order.6}}</td>
+                        <td>{{order.7}}</td>
+                        <td>{{order.8}}</td>
 						<td><a class="btn btn-sm btn-info" href="/polls/update/{{order.ts_code}}"> Update</a></td>
 
 						<td><a class="btn btn-sm btn-danger" href="/polls/delete/{{order.ts_code}}">Delete</a></td>

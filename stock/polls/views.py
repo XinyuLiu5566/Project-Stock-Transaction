@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 import os
 from neomodel import config
 from neomodel import db
+from django.db import connection
 
 def register(request):
     title = "register"
@@ -110,7 +111,18 @@ def home(request):
         }
         return render(request, 'polls/home.html', context)
 
-
+def daily_info(request):
+    title = "stock daily info"
+    cursor = connection.cursor()
+    cursor.execute("SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info")
+    results = cursor.fetchall()
+    # queryset = StockInfo.objects.all()
+    # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
+    context = {
+        "title" : title,
+        "queryset" : results,
+    }
+    return render(request, 'polls/daily_info.html', context)
     
 def all_stock(request):
     title = "all stock info"
