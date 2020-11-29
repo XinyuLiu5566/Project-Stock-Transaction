@@ -228,18 +228,19 @@ def search(request):
         return render(request, 'polls/all_stock.html', context)
 # Create your views here.
 def search_daily(request):
-    code = request.POST['search_ts']
-    date = request.POST['search_date']
+    code = request.POST.get('search_ts', False)
+    date = request.POST.get('search_date', False)
     title = "search result"
     cursor = connection.cursor()
     if code != '':
-        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE ts_code = '" + code + "'"
+        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE ts_code = '" +str(code) + "'"
         cursor.execute(query)
     if date != '':
-        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE date = '" + date + "'"
+        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE trade_date = '" + str(date) + "'"
         cursor.execute(query)
-    query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info"
-    cursor.execute(query)
+    if code != '' and date != '':
+        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info" + " WHERE ts_code = '" + str(code) + "'"+ "and trade_date = '" + str(date) + "'"
+        cursor.execute(query)
     results = cursor.fetchall()
     # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
     context = {
