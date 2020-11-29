@@ -209,11 +209,41 @@ def delete(request, pk):
 def search(request):
     code = request.POST['search']
     title = "search result"
-    queryset = StockInfo.objects.get(ts_code = code)
+    if code != '':
+        queryset = StockInfo.objects.get(ts_code = code)
+        # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
+        context = {
+            "title" : title,
+            "queryset" : queryset,
+        }
+        return render(request, 'polls/search.html', context)
+    else:
+        title = "all stock info"
+        queryset = StockInfo.objects.all()
+        # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
+        context = {
+            "title" : title,
+            "queryset" : queryset,
+        }
+        return render(request, 'polls/all_stock.html', context)
+# Create your views here.
+def search_daily(request):
+    code = request.POST['search_ts']
+    date = request.POST['search_date']
+    title = "search result"
+    cursor = connection.cursor()
+    if code != '':
+        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE ts_code = '" + code + "'"
+        cursor.execute(query)
+    if date != '':
+        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE date = '" + date + "'"
+        cursor.execute(query)
+    query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info"
+    cursor.execute(query)
+    results = cursor.fetchall()
     # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
     context = {
         "title" : title,
-        "queryset" : queryset,
+        "queryset" : results
     }
-    return render(request, 'polls/search.html', context)
-# Create your views here.
+    return render(request, 'polls/search_daily.html', context)

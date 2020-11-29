@@ -55,9 +55,9 @@
 			</ul>
 			<span>Hello, {{request.user}} </span>
             <a href="../" class="btn btn-secondary btn-sm" role="button" aria-pressed="true">Logout</a>
-            <!-- <form class="form-inline my-2 my-md-0" method = 'POST', action = "/polls/search_daily/">{% csrf_token %}
+            <form class="form-inline my-2 my-md-0" method = 'POST', action = "/polls/search_daily/">{% csrf_token %}
                 <input class="form-control" name = "search_daily" type="text" placeholder="Search">
-            </form> -->
+            </form>
             </div>
         </nav>
     </div>
@@ -66,20 +66,20 @@
     <!-- <form class="md-form active-pink active-pink-2 mb-3 mt-0" method = 'POST', action = "/polls/search/">{% csrf_token %}
 		<input class="form-control" name = "search_ts" type="text" placeholder="Search TS_code">
 	</form> -->
-	<div style="position: absolute; top: 80px; display:flex; flex: 1;" >
+	<!-- <div style="position: absolute; top: 80px; display:flex; flex: 1;" >
 		<div>
-		<form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/search_daily/">{% csrf_token %}
-			<input class="form-control mr-sm-2" name = "search_ts" type="text" placeholder="Search TS_code" aria-label="Search">
+		<form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/search/">{% csrf_token %}
+			<input class="form-control mr-sm-2" name = "search_ts" type="text" placeholder="Search TS_code" aria-label="Search"> -->
 			<!-- <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Search</button> -->
-		</form>
+		<!-- </form>
 		</div>
 		<div style="position: relative; left: 10vw;">
-		<form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/search_daily/">{% csrf_token %}
+		<form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/search/">{% csrf_token %}
 			<input class="form-control mr-sm-2" name = "search_date" type="text" placeholder="Search date" aria-label="Search">
 			<button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Search</button>
 		</form>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- <form class="form-inline my-2 my-md-0" method = 'POST', action = "/polls/search/">{% csrf_token %}
 		<input class="form-control" name = "search_date" type="text" placeholder="Search date">

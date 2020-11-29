@@ -15,4 +15,5 @@ urlpatterns = [
     path('register/', views.register, name="app-register"),
     # path('login/', views.loginPage, name="app-login"),
     path('after_login/', views.home, name="app-after_login"),
+    path('search_daily/', views.search_daily, name="app-search"),
 ]
