@@ -45,26 +45,15 @@
 			<a class="btn btn-primary  btn-sm btn-block" href="/polls/insertneo">Insert new stock</a>
 			<table class="table table-sm">
 				<tr>
-					<th>TS_code</th>
-                    <th>Symbol</th>
-                    <th>Enname</th>
-					<th>List Date</th>
-					<th>Update</th>
-					<th>Delete</th>
+					<th>TS_code</th>   
 				</tr>
 
-				<!-- {% for order in queryset %}
+				{% for order in queryset %}
 					<tr>
-						<td>{{order.ts_code}}</td>
-						<td>{{order.symbol}}</td>
-                        <td>{{order.enname}}</td>
-                        <td>{{order.list_date}}</td>
-						<td><a class="btn btn-sm btn-info" href="/polls/update/{{order.ts_code}}"> Update</a></td>
-
-						<td><a class="btn btn-sm btn-danger" href="/polls/delete/{{order.ts_code}}">Delete</a></td>
+						<td>{{order.input_code}}</td>
 
 					</tr>
-				{% endfor %} -->
+				{% endfor %}
 
 		
 			</table>

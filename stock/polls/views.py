@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import os
 from neomodel import config
+from neomodel import db
 
 def register(request):
     title = "register"
@@ -54,6 +55,7 @@ def loginPage(request):
     return render(request, 'polls/login.html', context)
 
 def home_afterlogin(request):
+    console.log('123')
     if request.user.username == 'admin':
         title = "all stock info"
         queryset = StockInfo.objects.all()
@@ -64,9 +66,16 @@ def home_afterlogin(request):
         }
         return render(request, 'polls/all_stock.html', context)
     else:
+        username = request.user.username
+        user = Person.nodes.get(name=username)
+        query = "match (n:Person) -[r:own]-> (t:Transaction) where n.name = '"+ username +"' return t"
+        results, meta = db.cypher_query(query)
+        queryset = [Transaction.inflate(row[0]) for row in results]
+        console.log(queryset)
         title = "Stock mainpage"
         context = {
-        "title" : title
+            "title" : title,
+            "queryset" : queryset
         }
         return render(request, 'polls/home_after_login.html', context)
 
@@ -77,11 +86,29 @@ def logoutPage(request):
 
 
 def home(request):
-    title = "Stock mainpage"
-    context = {
-        "title" : title
-    }
-    return render(request, 'polls/home.html', context)
+    config.DATABASE_URL = os.environ["NEO4J_BOLT_URL"]
+    if request.user.username == 'admin':
+        title = "all stock info"
+        queryset = StockInfo.objects.all()
+        # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
+        context = {
+            "title" : title,
+            "queryset" : queryset,
+        }
+        return render(request, 'polls/all_stock.html', context)
+    else:
+        username = request.user.username
+        user = Person.nodes.get(name=username)
+        query = "match (n:Person) -[r:own]-> (t:Transaction) where n.name = '"+ username +"' return t"
+        results, meta = db.cypher_query(query)
+        queryset = [Transaction.inflate(row[0]) for row in results]
+        print(queryset)
+        title = "Stock mainpage"
+        context = {
+            "title" : title,
+            "queryset" : queryset
+        }
+        return render(request, 'polls/home.html', context)
 
 
     
@@ -135,9 +162,9 @@ def insert_neo(request):
             if ts is None:
                 ts = Transaction(ts_code = code).save()
             
-            # usernode = Person.nodes.get(name=request.user.username)
-            # usernode.stock.connect(ts)
-            # return redirect('polls/all_stock.html')
+            usernode = Person.nodes.get(name=request.user.username)
+            usernode.stock.connect(ts)
+            return redirect('../after_login')
     context = {
         "form" : form,
         "title": title,

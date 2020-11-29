@@ -32,7 +32,7 @@
 <body>
     <div>
     <div>
-        <nav class="navbar fixed-top navbar-expand navbar-dark bg-dark">
+        <nav class="navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Stocks</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -40,11 +40,11 @@
     
             <div class="collapse navbar-collapse" id="navbarsExample02">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                 <a class="nav-link" href="/polls/after_login">Home</a>
-                </li>
+                </li> -->
                 <li class="nav-item active">
-                <a class="nav-link" href="/polls/all_stock_not_admin">All Stock <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/polls/all_stock">All Stock <span class="sr-only">(current)</span></a>
 				</li>
 				</li>
 			</ul>
@@ -57,54 +57,38 @@
         </nav>
     </div>
     
-
-    <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
     
-    <!-- <div class="col-md-12">
+    <div class="col-md-12">
 		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="/polls/insert">Insert new stock</a>
 			<table class="table table-sm">
 				<tr>
 					<th>TS_code</th>
-                    <th>Symbol</th>
-                    <th>Enname</th>
-					<th>List Date</th>
+                    <th>Company</th>
+                    <th>date</th>
+                    <th>high</th>
+                    <th>low</th>
+                    <th>close</th>
+                    <th>percent change</th>
+                    <th>volume</th>
+                    <th>update</th>
+					<th>Delete</th>
 				</tr>
 
 				{% for order in queryset %}
 					<tr>
 						<td>{{order.ts_code}}</td>
-						<td>{{order.symbol}}</td>
-                        <td>{{order.enname}}</td>
-                        <td>{{order.list_date}}</td>
+						<td>{{order.company}}</td>
+                        <td>{{order.date}}</td>
+                        <td>{{order.high}}</td>
+                        <td>{{order.low}}</td>
+						<td>{{order.close}}</td>
+                        <td>{{order.percent_change}}</td>
+                        <td>{{order.volume}}</td>
+						<td><a class="btn btn-sm btn-info" href="/polls/update/{{order.ts_code}}"> Update</a></td>
+
+						<td><a class="btn btn-sm btn-danger" href="/polls/delete/{{order.ts_code}}">Delete</a></td>
+
 					</tr>
 				{% endfor %}
 
@@ -112,7 +96,7 @@
 			</table>
 		</div>
 	</div>  
-         -->
+        
 
 </div>
 </div>
