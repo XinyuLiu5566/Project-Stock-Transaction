@@ -86,7 +86,6 @@
 	</form> -->
     <div style="position: absolute; top: 200px;" class="col-md-12">
 		<div class="card card-body">
-			<a class="btn btn-primary  btn-sm btn-block" href="/polls/insert">Insert new stock</a>
 			<table class="table table-sm">
 				<tr>
 					<th>TS_code</th>
@@ -98,8 +97,7 @@
                     <th>close</th>
                     <th>percent change</th>
                     <th>volume</th>
-                    <th>update</th>
-					<th>Delete</th>
+
 				</tr>
 
 				{% for order in queryset %}
@@ -113,10 +111,7 @@
 						<td>{{order.6}}</td>
                         <td>{{order.7}}</td>
                         <td>{{order.8}}</td>
-						<td><a class="btn btn-sm btn-info" href="/polls/update/{{order.ts_code}}"> Update</a></td>
-
-						<td><a class="btn btn-sm btn-danger" href="/polls/delete/{{order.ts_code}}">Delete</a></td>
-
+						
 					</tr>
 				{% endfor %}
 
