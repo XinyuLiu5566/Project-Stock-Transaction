@@ -16,4 +16,5 @@ urlpatterns = [
     # path('login/', views.loginPage, name="app-login"),
     path('after_login/', views.home, name="app-after_login"),
     path('search_daily/', views.search_daily, name="app-search"),
+    path('moreinfo/<str:pk>/', views.more_info, name="app-moreinfo"),
 ]

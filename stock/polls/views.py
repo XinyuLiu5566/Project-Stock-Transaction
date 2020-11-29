@@ -184,6 +184,14 @@ def insert_neo(request):
     return render(request, 'polls/insertneo.html', context)
 
 
+def more_info(request, pk):
+    stock = StockInfo.objects.get(ts_code = pk)
+    context = {
+        "stock" : stock
+    }
+    # stock = StockInfo.objects.raw('''SELECT * FROM stock_info WHERE ts_code = %s''', pk)
+    
+    return render(request, 'polls/moreinfo.html', context)
 
 def update_elem(request, pk):
     stock = StockInfo.objects.get(ts_code = pk)
