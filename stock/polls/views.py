@@ -26,7 +26,7 @@ def register(request):
             usernode.save()
             messages.success(request, 'Account was created for ' + user)
 
-            return redirect('../../polls/login')
+            return redirect('../../polls/')
     context = {
         "title" : title,
         "form" : form
@@ -43,7 +43,10 @@ def loginPage(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('../polls/after_login')
+            if username == 'admin':
+                return redirect('../polls/all_stock')
+            else:
+                return redirect('../polls/after_login')
         else:
             messages.info(request, 'Username OR password is incorrect')
 
@@ -70,7 +73,7 @@ def home_afterlogin(request):
 
 def logoutPage(request):
 	logout(request)
-	return redirect('login')
+	return redirect('../polls')
 
 
 def home(request):
