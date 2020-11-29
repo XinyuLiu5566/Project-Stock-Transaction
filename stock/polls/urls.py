@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.loginPage, name="app-home"),
     path('logout/', views.logoutPage, name="logout"),
     path('all_stock/', views.all_stock, name="all-stock"),
+    path('all_stock_not_admin/', views.all_stock_not_admin, name="all-stock-not"),
     path('insert/', views.insert_elem, name="app-insert"),
     path('insertneo/', views.insert_neo, name="app-insertneo"),
     path('update/<str:pk>/', views.update_elem, name="app-update"),

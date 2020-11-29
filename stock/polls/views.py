@@ -95,6 +95,16 @@ def all_stock(request):
     }
     return render(request, 'polls/all_stock.html', context)
 
+def all_stock_not_admin(request):
+    title = "all stock info"
+    queryset = StockInfo.objects.all()
+    # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
+    context = {
+        "title" : title,
+        "queryset" : queryset,
+    }
+    return render(request, 'polls/all_stock_not_admin.html', context)
+
 
 def insert_elem(request):
     title = "insert"

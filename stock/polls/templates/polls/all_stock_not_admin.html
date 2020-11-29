@@ -40,11 +40,11 @@
     
             <div class="collapse navbar-collapse" id="navbarsExample02">
             <ul class="navbar-nav mr-auto">
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                 <a class="nav-link" href="/polls/after_login">Home</a>
-                </li> -->
+                </li>
                 <li class="nav-item active">
-                <a class="nav-link" href="/polls/all_stock">All Stock <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/polls/all_stock_not_admin">All Stock <span class="sr-only">(current)</span></a>
 				</li>
 				</li>
 			</ul>
@@ -60,15 +60,12 @@
     
     <div class="col-md-12">
 		<div class="card card-body">
-			<a class="btn btn-primary  btn-sm btn-block" href="/polls/insert">Insert new stock</a>
 			<table class="table table-sm">
 				<tr>
 					<th>TS_code</th>
                     <th>Symbol</th>
                     <th>Enname</th>
 					<th>List Date</th>
-					<th>Update</th>
-					<th>Delete</th>
 				</tr>
 
 				{% for order in queryset %}
@@ -77,10 +74,7 @@
 						<td>{{order.symbol}}</td>
                         <td>{{order.enname}}</td>
                         <td>{{order.list_date}}</td>
-						<td><a class="btn btn-sm btn-info" href="/polls/update/{{order.ts_code}}"> Update</a></td>
-
-						<td><a class="btn btn-sm btn-danger" href="/polls/delete/{{order.ts_code}}">Delete</a></td>
-
+					
 					</tr>
 				{% endfor %}
 
