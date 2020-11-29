@@ -52,19 +52,18 @@
           <th>More Info</th>
 				</tr>
 
-        {% for order in queryset %}
-					<tr>
-            <td>{{order.ts_code}}</td>
-            <td>{{order.enname}}</td>
-            <td>{{order.ts_code}}</td>
-            <td>{{order.ts_code}}</td>
-            <!-- <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td> -->
-            <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td>
+        {% for order in company %}
+        <tr>
+          <td>{{order.ts_code}}</td>
+          <td>{{order.enname}}</td>
+          <td>{{order.ts_code}}</td>
+          <td>{{order.ts_code}}</td>
+          <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td>
+          <!-- <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td> -->
 
 
-					</tr>
-				{% endfor %}
-
+        </tr>
+        {% endfor %}
 		
 			</table>
 		</div>

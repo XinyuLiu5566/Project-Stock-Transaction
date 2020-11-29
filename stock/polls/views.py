@@ -103,13 +103,19 @@ def home(request):
         query = "match (n:Person) -[r:own]-> (t:Transaction) where n.name = '"+ username +"' return t"
         results, meta = db.cypher_query(query)
         queryset = [Transaction.inflate(row[0]) for row in results]
-        print(queryset)
+        company = []
+        for i in range(len(queryset)):
+            name = StockInfo.objects.get(ts_code = queryset[i].ts_code)
+            company.append(name)
+        
         title = "Stock mainpage"
         context = {
             "title" : title,
-            "queryset" : queryset
+            # "queryset" : queryset,
+            "company" : company,
         }
         return render(request, 'polls/home.html', context)
+
 
 def daily_info(request):
     title = "stock daily info"
@@ -238,17 +244,23 @@ def search(request):
 def search_daily(request):
     code = request.POST.get('search_ts', False)
     date = request.POST.get('search_date', False)
+    value = request.POST.get('order_by')
     title = "search result"
     cursor = connection.cursor()
     if code != '':
         query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE ts_code = '" +str(code) + "'"
-        cursor.execute(query)
+        
     if date != '':
         query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE trade_date = '" + str(date) + "'"
-        cursor.execute(query)
+        
     if code != '' and date != '':
         query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info" + " WHERE ts_code = '" + str(code) + "'"+ "and trade_date = '" + str(date) + "'"
-        cursor.execute(query)
+    
+    if value == "Price low to high":
+        query = query + "ORDER BY close_price"
+    if value == "Price high to low":
+        query = query + "ORDER BY close_price DESC"
+    cursor.execute(query)
     results = cursor.fetchall()
     # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
     context = {
