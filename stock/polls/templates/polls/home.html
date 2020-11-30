@@ -31,6 +31,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/polls/all_stock_not_admin">All Stock</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/polls/daily_info">Daily info</a>
+              </li>
               </ul>
 
               <span>Hello, {{request.user}} </span>
@@ -40,15 +43,15 @@
     </div>
     
     
-    <div style="position: absolute; top: 200px; left: 25vw;"  class="col-md-6">
+    <div style="position: absolute; top: 200px; "  class="col-md-6">
 		<div class="card card-body">
 			<a class="btn btn-primary  btn-sm btn-block" href="/polls/insertneo">Insert new stock</a>
 			<table class="table table-sm">
 				<tr>
           <th>TS_code</th>
           <th>Enname</th>   
-          <th>Status</th>   
-          <th>Delete</th>
+          <!-- <th>Status</th>    -->
+          <!-- <th>Delete</th> -->
           <th>More Info</th>
 				</tr>
 
@@ -56,8 +59,8 @@
         <tr>
           <td>{{order.ts_code}}</td>
           <td>{{order.enname}}</td>
-          <td>{{order.ts_code}}</td>
-          <td>{{order.ts_code}}</td>
+          <!-- <td>{{order.ts_code}}</td> -->
+          <!-- <td>{{order.ts_code}}</td> -->
           <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td>
           <!-- <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td> -->
 

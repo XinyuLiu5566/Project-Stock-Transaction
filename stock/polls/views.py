@@ -192,8 +192,13 @@ def insert_neo(request):
 
 def more_info(request, pk):
     stock = StockInfo.objects.get(ts_code = pk)
+    cursor = connection.cursor()
+    cursor.execute("SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE ts_code = '" +str(pk) + "'")
+    results = cursor.fetchall()
     context = {
+        "daily" : results,
         "stock" : stock
+        
     }
     # stock = StockInfo.objects.raw('''SELECT * FROM stock_info WHERE ts_code = %s''', pk)
     
