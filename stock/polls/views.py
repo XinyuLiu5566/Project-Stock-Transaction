@@ -120,7 +120,7 @@ def home(request):
 def daily_info(request):
     title = "stock daily info"
     cursor = connection.cursor()
-    cursor.execute("SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info")
+    cursor.execute("SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info LIMIT 1000")
     results = cursor.fetchall()
     # queryset = StockInfo.objects.all()
     # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
