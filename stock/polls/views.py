@@ -207,8 +207,8 @@ def more_info(request, pk):
     user = Person.nodes.get(name=username)
     # 0 return recommendation_adv, 1 return unpopular text and recommendation_default, 2 return followmore text
     recstate = 0
-    text_unpopular = "This is a unpopular stock, here are some recommending stock based on stock you own"
-    text_ownmore = "Own more stock to get personalized recommendation"
+    text_unpopular = "This is a unpopular stock, here are some recommending stock based on stock you own:"
+    text_ownmore = "Own more stock to get personalized recommendation!"
     query_adv = "MATCH (cu:Person{name:'" + username + "'})-[r:own]->(s:Transaction)<-[rr:own]-(sou:Person) WITH sou, cu MATCH (a:Transaction{ts_code:'" + pk + \
         "'}) <-[r:own]-(b:Person) WITH DISTINCT b, a, sou, cu MATCH (b)-[r:own]->(rs:Transaction) WHERE a <> rs AND (NOT (cu)--(rs)) WITH DISTINCT rs, sou MATCH (rs)<-[r:own]-(uo:Person) WITH rs, count(DISTINCT uo) as de_weight, collect(distinct uo) as owner, collect(distinct sou) as close_user WITH rs, de_weight, owner, close_user, [n in owner WHERE n in close_user] as high_weight_user, 2 * size([n in owner WHERE n in close_user]) as bonus RETURN rs.ts_code, de_weight + bonus as final_weight ORDER BY final_weight DESC LIMIT 5"
     neoresults_adv, meta_adv = db.cypher_query(query_adv)
@@ -229,7 +229,7 @@ def more_info(request, pk):
 
     if (recstate == 0):
         queryset = recommendation_adv
-        warning_text = ""
+        warning_text = "This is the recommandation stock based on" + pk + ":"
     elif (recstate == 1):
         queryset = recommendation_default
         warning_text = text_unpopular

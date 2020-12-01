@@ -22,7 +22,7 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-      
+
             <div class="collapse navbar-collapse" id="navbarsExample02">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -36,8 +36,8 @@
               </li>
               </ul>
 
-              <span>Hello, {{request.user}} </span>
-              <a href="../" class="btn btn-secondary btn-sm" role="button" aria-pressed="true">Logout</a>
+              <span style = "position: relative; right: 20px;"class="text-white">Hello, {{request.user}} </span>
+              <span><a href=" " class="btn btn-secondary btn-sm" role="button" aria-pressed="true">Logout</a></span>
             </div>
           </nav>
     </div>
@@ -50,7 +50,7 @@
 			<table class="table table-sm">
 				<tr>
           <th>TS_code</th>
-          <th>Enname</th>   
+          <th>Enname</th>
           <!-- <th>Status</th>    -->
           <!-- <th>Delete</th> -->
           <th>More Info</th>
@@ -68,14 +68,14 @@
 
         </tr>
         {% endfor %}
-		
+
 			</table>
 		</div>
-  </div>  
+  </div>
 
 
   <div style="position: absolute; top: 60px; left: 50vw;"  class="col-md-6">
-      
+
 		<div class="card card-body">
       <div style="position: relative; ">
         <form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/search_recommmand/">{% csrf_token %}
@@ -83,11 +83,11 @@
           <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Search</button>
         </form>
         </div>
-  
+
 			<table class="table table-sm">
 				<tr>
           <th>TS_code</th>
-          <th>Enname</th>   
+          <th>Enname</th>
           <!-- <th>Status</th>    -->
           <!-- <th>Delete</th> -->
           <th>More Info</th>
@@ -105,17 +105,17 @@
 
         </tr>
         {% endfor %}
-		
+
 			</table>
 		</div>
-	</div>  
-        
+	</div>
+
 
 </div>
 </div>
 
 
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/bootstrap/js/popper.js"></script>
@@ -132,8 +132,8 @@
 				ps.update();
 			})
 		});
-			
-		
+
+
 	</script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
@@ -145,11 +145,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
