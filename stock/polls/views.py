@@ -15,6 +15,7 @@ from neomodel import config
 from neomodel import db
 from django.db import connection
 
+
 def register(request):
     title = "register"
     form = CreateUserForm()
@@ -23,15 +24,15 @@ def register(request):
         if form.is_valid():
             form.save()
             user = form.cleaned_data.get('username')
-            usernode = Person(name = user)
-            config.DATABASE_URL = os.environ["NEO4J_BOLT_URL"]
+            usernode = Person(name=user)
+            db.set_connection('bolt://neo4j:000000@localhost:7687')
             usernode.save()
             messages.success(request, 'Account was created for ' + user)
 
             return redirect('../../polls/')
     context = {
-        "title" : title,
-        "form" : form
+        "title": title,
+        "form": form
     }
     return render(request, 'polls/register.html', context)
 
@@ -55,6 +56,7 @@ def loginPage(request):
     context = {}
     return render(request, 'polls/login.html', context)
 
+
 def home_afterlogin(request):
     console.log('123')
     if request.user.username == 'admin':
@@ -62,57 +64,59 @@ def home_afterlogin(request):
         queryset = StockInfo.objects.all()
         # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
         context = {
-            "title" : title,
-            "queryset" : queryset,
+            "title": title,
+            "queryset": queryset,
         }
         return render(request, 'polls/all_stock.html', context)
     else:
         username = request.user.username
         user = Person.nodes.get(name=username)
-        query = "match (n:Person) -[r:own]-> (t:Transaction) where n.name = '"+ username +"' return t"
+        query = "match (n:Person) -[r:own]-> (t:Transaction) where n.name = '" + \
+            username + "' return t"
         results, meta = db.cypher_query(query)
         queryset = [Transaction.inflate(row[0]) for row in results]
         console.log(queryset)
         title = "Stock mainpage"
         context = {
-            "title" : title,
-            "queryset" : queryset
+            "title": title,
+            "queryset": queryset
         }
         return render(request, 'polls/home_after_login.html', context)
 
 
 def logoutPage(request):
-	logout(request)
-	return redirect('../polls')
+    logout(request)
+    return redirect('../polls')
 
 
 def home(request):
-    config.DATABASE_URL = os.environ["NEO4J_BOLT_URL"]
+    db.set_connection('bolt://neo4j:000000@localhost:7687')
     if request.user.username == 'admin':
         title = "all stock info"
         queryset = StockInfo.objects.all()
         # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
         context = {
-            "title" : title,
-            "queryset" : queryset,
+            "title": title,
+            "queryset": queryset,
         }
         return render(request, 'polls/all_stock.html', context)
     else:
         username = request.user.username
         user = Person.nodes.get(name=username)
-        query = "match (n:Person) -[r:own]-> (t:Transaction) where n.name = '"+ username +"' return t"
+        query = "match (n:Person) -[r:own]-> (t:Transaction) where n.name = '" + \
+            username + "' return t"
         results, meta = db.cypher_query(query)
         queryset = [Transaction.inflate(row[0]) for row in results]
         company = []
         for i in range(len(queryset)):
-            name = StockInfo.objects.get(ts_code = queryset[i].ts_code)
+            name = StockInfo.objects.get(ts_code=queryset[i].ts_code)
             company.append(name)
-        
+
         title = "Stock mainpage"
         context = {
-            "title" : title,
+            "title": title,
             # "queryset" : queryset,
-            "company" : company,
+            "company": company,
         }
         return render(request, 'polls/home.html', context)
 
@@ -125,28 +129,30 @@ def daily_info(request):
     # queryset = StockInfo.objects.all()
     # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
     context = {
-        "title" : title,
-        "queryset" : results,
+        "title": title,
+        "queryset": results,
     }
     return render(request, 'polls/daily_info.html', context)
-    
+
+
 def all_stock(request):
     title = "all stock info"
     queryset = StockInfo.objects.all()
     # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
     context = {
-        "title" : title,
-        "queryset" : queryset,
+        "title": title,
+        "queryset": queryset,
     }
     return render(request, 'polls/all_stock.html', context)
+
 
 def all_stock_not_admin(request):
     title = "all stock info"
     queryset = StockInfo.objects.all()
     # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
     context = {
-        "title" : title,
-        "queryset" : queryset,
+        "title": title,
+        "queryset": queryset,
     }
     return render(request, 'polls/all_stock_not_admin.html', context)
 
@@ -158,13 +164,14 @@ def insert_elem(request):
         form.save()
         # return redirect('polls/all_stock.html')
     context = {
-        "form" : form,
+        "form": form,
         "title": title,
     }
     return render(request, 'polls/insert.html', context)
 
+
 def insert_neo(request):
-    config.DATABASE_URL = os.environ["NEO4J_BOLT_URL"]
+    db.set_connection('bolt://neo4j:000000@localhost:7687')
     title = "insert"
     form = StockForm(request.POST or None)
     flag = 1
@@ -172,68 +179,113 @@ def insert_neo(request):
         code = form.data['input_code']
         print(type(code))
         try:
-            user = StockInfo.objects.get(ts_code = code)
+            user = StockInfo.objects.get(ts_code=code)
         except ObjectDoesNotExist:
             flag = 0
         if flag == 1:
-            ts = Transaction.nodes.get_or_none(ts_code = code)
+            ts = Transaction.nodes.get_or_none(ts_code=code)
             if ts is None:
-                ts = Transaction(ts_code = code).save()
-            
+                ts = Transaction(ts_code=code).save()
+
             usernode = Person.nodes.get(name=request.user.username)
             usernode.stock.connect(ts)
             return redirect('../after_login')
     context = {
-        "form" : form,
+        "form": form,
         "title": title,
     }
     return render(request, 'polls/insertneo.html', context)
 
 
 def more_info(request, pk):
-    stock = StockInfo.objects.get(ts_code = pk)
+    db.set_connection('bolt://neo4j:000000@localhost:7687')
+    stock = StockInfo.objects.get(ts_code=pk)
     cursor = connection.cursor()
-    cursor.execute("SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE ts_code = '" +str(pk) + "'")
+    cursor.execute("SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE ts_code = '" + str(pk) + "'")
     results = cursor.fetchall()
+    username = request.user.username
+    user = Person.nodes.get(name=username)
+    # 0 return recommendation_adv, 1 return unpopular text and recommendation_default, 2 return followmore text
+    recstate = 0
+    text_unpopular = "This is a unpopular stock, here are some recommending stock based on stock you own"
+    text_ownmore = "Own more stock to get personalized recommendation"
+    query_adv = "MATCH (cu:Person{name:'" + username + "'})-[r:own]->(s:Transaction)<-[rr:own]-(sou:Person) WITH sou, cu MATCH (a:Transaction{ts_code:'" + pk + \
+        "'}) <-[r:own]-(b:Person) WITH DISTINCT b, a, sou, cu MATCH (b)-[r:own]->(rs:Transaction) WHERE a <> rs AND (NOT (cu)--(rs)) WITH DISTINCT rs, sou MATCH (rs)<-[r:own]-(uo:Person) WITH rs, count(DISTINCT uo) as de_weight, collect(distinct uo) as owner, collect(distinct sou) as close_user WITH rs, de_weight, owner, close_user, [n in owner WHERE n in close_user] as high_weight_user, 2 * size([n in owner WHERE n in close_user]) as bonus RETURN rs.ts_code, de_weight + bonus as final_weight ORDER BY final_weight DESC LIMIT 5"
+    neoresults_adv, meta_adv = db.cypher_query(query_adv)
+    recommendation_adv = [row[0] for row in neoresults_adv]
+    if (len(recommendation_adv) == 0):
+        recstate = 1
+    query_default = "MATCH (cu:Person{name:'" + username + \
+        "'})-[r:own]-(s:Transaction)<-[rr:own]-(sou:Person) WITH sou, cu, COUNT(s) as weight MATCH (sou)-[r:own]->(a:Transaction) WHERE NOT (cu)--(a) RETURN weight, a.ts_code ORDER BY weight DESC"
+    neoresults_default, meta_default = db.cypher_query(query_default)
+    recommendation_default = []
+    for x in neoresults_default:
+        if (x[1] not in recommendation_default):
+            recommendation_default.insert(len(recommendation_default), x[1])
+        if (len(recommendation_default) >= 5):
+            break
+    if (len(recommendation_default) == 0):
+        recstate = 2
+
+    if (recstate == 0):
+        queryset = recommendation_adv
+        warning_text = ""
+    elif (recstate == 1):
+        queryset = recommendation_default
+        warning_text = text_unpopular
+    elif (recstate == 2):
+        queryset = []
+        warning_text = text_ownmore
+
+    company = []
+    for i in range(len(queryset)):
+        st = StockInfo.objects.get(ts_code=queryset[i])
+        company.append(st.enname)
+    rank = range(1, len(queryset))
+    queryset = list(zip(rank, queryset, company))
+
     context = {
-        "daily" : results,
-        "stock" : stock
-        
-    }
+        "daily": results,
+        "stock": stock,
+        "queryset": queryset,
+        "warning_text": warning_text}
     # stock = StockInfo.objects.raw('''SELECT * FROM stock_info WHERE ts_code = %s''', pk)
-    
+
     return render(request, 'polls/moreinfo.html', context)
 
+
 def update_elem(request, pk):
-    stock = StockInfo.objects.get(ts_code = pk)
+    stock = StockInfo.objects.get(ts_code=pk)
     # stock = StockInfo.objects.raw('''SELECT * FROM stock_info WHERE ts_code = %s''', pk)
-    form = StockCreateForm(request.POST or None, instance = stock) 
+    form = StockCreateForm(request.POST or None, instance=stock)
     if form.is_valid():
         form.save()
     context = {
-        "form" : form,
+        "form": form,
     }
     return render(request, 'polls/insert.html', context)
 
+
 def delete(request, pk):
-    stock = StockInfo.objects.get(ts_code = pk)
+    stock = StockInfo.objects.get(ts_code=pk)
     if request.method == "POST":
         stock.delete()
         return redirect('../../../polls/all_stock')
     context = {
-        "item" : stock,
+        "item": stock,
     }
     return render(request, 'polls/delete.html', context)
+
 
 def search(request):
     code = request.POST['search']
     title = "search result"
     if code != '':
-        queryset = StockInfo.objects.get(ts_code = code)
+        queryset = StockInfo.objects.get(ts_code=code)
         # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
         context = {
-            "title" : title,
-            "queryset" : queryset,
+            "title": title,
+            "queryset": queryset,
         }
         return render(request, 'polls/search.html', context)
     else:
@@ -241,11 +293,13 @@ def search(request):
         queryset = StockInfo.objects.all()
         # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
         context = {
-            "title" : title,
-            "queryset" : queryset,
+            "title": title,
+            "queryset": queryset,
         }
         return render(request, 'polls/all_stock.html', context)
 # Create your views here.
+
+
 def search_daily(request):
     code = request.POST.get('search_ts', False)
     date = request.POST.get('search_date', False)
@@ -253,14 +307,17 @@ def search_daily(request):
     title = "search result"
     cursor = connection.cursor()
     if code != '':
-        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE ts_code = '" +str(code) + "'"
-        
+        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE ts_code = '" + \
+            str(code) + "'"
+
     if date != '':
-        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE trade_date = '" + str(date) + "'"
-        
+        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info WHERE trade_date = '" + \
+            str(date) + "'"
+
     if code != '' and date != '':
-        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info" + " WHERE ts_code = '" + str(code) + "'"+ "and trade_date = '" + str(date) + "'"
-    
+        query = "SELECT ts_code, enname, trade_date, open_price, high, low, close_price, percent_change,volumn FROM daily_info NATURAL JOIN stock_info" + \
+            " WHERE ts_code = '" + str(code) + "'" + "and trade_date = '" + str(date) + "'"
+
     if value == "Price low to high":
         query = query + "ORDER BY close_price"
     if value == "Price high to low":
@@ -269,7 +326,7 @@ def search_daily(request):
     results = cursor.fetchall()
     # queryset = StockInfo.objects.raw('''SELECT * FROM stock_info''')
     context = {
-        "title" : title,
-        "queryset" : results
+        "title": title,
+        "queryset": results
     }
     return render(request, 'polls/search_daily.html', context)
