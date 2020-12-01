@@ -112,11 +112,22 @@ def home(request):
             name = StockInfo.objects.get(ts_code=queryset[i].ts_code)
             company.append(name)
 
+        date = request.POST.get('search_recommmand')
+        results = []
+        if date != '':
+            # temp = predict(date)
+            # for i in range(len(temp)):
+            #     name = StockInfo.objects.get(ts_code=i)
+            #     results.append(name)
+            cursor = connection.cursor()
+            cursor.execute("SELECT ts_code,enname FROM adf1_result WHERE trade_date = '"+str(date)+"'")
+            results = cursor.fetchall()
         title = "Stock mainpage"
         context = {
             "title": title,
             # "queryset" : queryset,
             "company": company,
+            "results": results,
         }
         return render(request, 'polls/home.html', context)
 

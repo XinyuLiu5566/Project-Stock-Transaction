@@ -78,7 +78,7 @@
 
 		<div class="card card-body">
       <div style="position: relative; ">
-        <form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/search_recommmand/">{% csrf_token %}
+        <form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/after_login/">{% csrf_token %}
           <input class="form-control mr-sm-2" name = "search_recommmand" type="text" placeholder="date" aria-label="Search">
           <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Search</button>
         </form>
@@ -93,13 +93,13 @@
           <th>More Info</th>
 				</tr>
 
-        {% for order in company %}
+        {% for order in results %}
         <tr>
-          <td>{{order.ts_code}}</td>
-          <td>{{order.enname}}</td>
+          <td>{{order.0}}</td>
+          <td>{{order.1}}</td>
           <!-- <td>{{order.ts_code}}</td> -->
-          <!-- <td>{{order.ts_code}}</td> -->
-          <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td>
+          <!-- <td>{{order.enname}}</td> -->
+          <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.0}}"> View</a></td>
           <!-- <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td> -->
 
 
