@@ -46,6 +46,7 @@
 
     <div style="position: absolute; top: 50px;"  class="col-md-6">
 		<div class="card card-body">
+      <h3>Owned Stocks</h3>
 			<a class="btn btn-primary  btn-sm btn-block" href="/polls/insertneo">Insert new stock</a>
 			<table class="table table-sm">
 				<tr>
@@ -78,6 +79,7 @@
 
 		<div class="card card-body">
       <div style="position: relative; ">
+        <h3>Trending Stocks</h3>
         <form class="form-inline md-form mr-auto mb-4" method = 'POST', action = "/polls/after_login/">{% csrf_token %}
           <input class="form-control mr-sm-2" name = "search_recommmand" type="text" placeholder="date" aria-label="Search">
           <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Search</button>
