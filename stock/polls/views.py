@@ -288,6 +288,15 @@ def delete(request, pk):
     return render(request, 'polls/delete.html', context)
 
 
+def delete_own(request, pk):
+    db.set_connection('bolt://neo4j:000000@localhost:7687')
+    if request.method == "POST":
+        query = "MATCH (n:Transaction{ts_code:'"+pk+"'}) DETACH DELETE n"
+        results, meta = db.cypher_query(query)
+        return redirect('../../after_login')
+
+    return render(request, 'polls/delete_own.html')
+
 def search(request):
     code = request.POST['search']
     title = "search result"

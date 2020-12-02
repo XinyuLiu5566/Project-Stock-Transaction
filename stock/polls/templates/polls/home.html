@@ -55,6 +55,8 @@
           <!-- <th>Status</th>    -->
           <!-- <th>Delete</th> -->
           <th>More Info</th>
+          <th>Delete</th>
+
 				</tr>
 
         {% for order in company %}
@@ -64,6 +66,8 @@
           <!-- <td>{{order.ts_code}}</td> -->
           <!-- <td>{{order.ts_code}}</td> -->
           <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td>
+          <td><a class="btn btn-sm btn-danger" href="/polls/delete_own/{{order.ts_code}}"> Delete</a></td>
+
           <!-- <td><a class="btn btn-sm btn-info" href="/polls/moreinfo/{{order.ts_code}}"> View</a></td> -->
 
 
@@ -90,8 +94,6 @@
 				<tr>
           <th>TS_code</th>
           <th>Enname</th>
-          <!-- <th>Status</th>    -->
-          <!-- <th>Delete</th> -->
           <th>More Info</th>
 				</tr>
 

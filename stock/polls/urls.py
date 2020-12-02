@@ -11,6 +11,7 @@ urlpatterns = [
     path('insertneo/', views.insert_neo, name="app-insertneo"),
     path('update/<str:pk>/', views.update_elem, name="app-update"),
     path('delete/<str:pk>/', views.delete, name="app-delete"),
+    path('delete_own/<str:pk>/', views.delete_own, name="app-delete_own"),
     path('search/', views.search, name="app-search"),
     path('register/', views.register, name="app-register"),
     # path('login/', views.loginPage, name="app-login"),
