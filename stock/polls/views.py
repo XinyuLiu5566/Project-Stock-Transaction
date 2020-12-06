@@ -114,14 +114,14 @@ def home(request):
 
         date = request.POST.get('search_recommmand')
         results = []
-        # if date != '':
-        #     # temp = predict(date)
-        #     # for i in range(len(temp)):
-        #     #     name = StockInfo.objects.get(ts_code=i)
-        #     #     results.append(name)
-        #     cursor = connection.cursor()
-        #     cursor.execute("SELECT ts_code,enname FROM adf1_result WHERE trade_date = '"+str(date)+"'")
-        #     results = cursor.fetchall()
+        if date != '':
+            # temp = predict(date)
+            # for i in range(len(temp)):
+            #     name = StockInfo.objects.get(ts_code=i)
+            #     results.append(name)
+            cursor = connection.cursor()
+            cursor.execute("SELECT ts_code,enname FROM adf1_result WHERE trade_date = '"+str(date)+"'")
+            results = cursor.fetchall()
         title = "Stock mainpage"
         context = {
             "title": title,
@@ -173,7 +173,7 @@ def insert_elem(request):
     form = StockCreateForm(request.POST or None)
     if form.is_valid():
         form.save()
-        # return redirect('polls/all_stock.html')
+        return redirect('../../../polls/all_stock')
     context = {
         "form": form,
         "title": title,
@@ -218,7 +218,7 @@ def more_info(request, pk):
     user = Person.nodes.get(name=username)
     # 0 return recommendation_adv, 1 return unpopular text and recommendation_default, 2 return followmore text
     recstate = 0
-    text_unpopular = "This is a unpopular stock, here are some recommending stock based on stock you own:"
+    text_unpopular = "This is a unpopular stock, here are some recommending stock based on stock you own: "
     text_ownmore = "Own more stock to get personalized recommendation!"
     query_adv = "MATCH (cu:Person{name:'" + username + "'})-[r:own]->(s:Transaction)<-[rr:own]-(sou:Person) WITH sou, cu MATCH (a:Transaction{ts_code:'" + pk + \
         "'}) <-[r:own]-(b:Person) WITH DISTINCT b, a, sou, cu MATCH (b)-[r:own]->(rs:Transaction) WHERE a <> rs AND (NOT (cu)--(rs)) WITH DISTINCT rs, sou MATCH (rs)<-[r:own]-(uo:Person) WITH rs, count(DISTINCT uo) as de_weight, collect(distinct uo) as owner, collect(distinct sou) as close_user WITH rs, de_weight, owner, close_user, [n in owner WHERE n in close_user] as high_weight_user, 2 * size([n in owner WHERE n in close_user]) as bonus RETURN rs.ts_code, de_weight + bonus as final_weight ORDER BY final_weight DESC LIMIT 5"
@@ -271,6 +271,7 @@ def update_elem(request, pk):
     form = StockCreateForm(request.POST or None, instance=stock)
     if form.is_valid():
         form.save()
+        return redirect('../../../polls/all_stock')
     context = {
         "form": form,
     }
