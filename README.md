@@ -1,4 +1,1 @@
-# CS411-Project-Stock-Transaction
-
-
-cscscs
+# Project-Stock-Transaction
